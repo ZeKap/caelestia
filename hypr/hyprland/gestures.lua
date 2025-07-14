@@ -12,17 +12,17 @@ hl.config({
     },
 })
 
-hl.gesture({ fingers = vars.workspaceSwipeFingers, direction = "horizontal", action = "workspace" })
+hl.gesture({ fingers = vars.workspaceSwipeFingers, direction = "vertical", action = "workspace" })
 hl.gesture({ fingers = vars.gestureFingers, direction = "up", action = "special", workspace_name = "special" })
 hl.gesture({
     fingers   = vars.gestureFingers,
     direction = "down",
     action    = fn.toggle("specialws"),
 })
-hl.gesture({
-    fingers   = vars.gestureFingersMore,
-    direction = "down",
-    action    = function()
-        hl.exec_cmd(vars.sleepGestureCmd)
-    end,
-})
+--hl.gesture({
+--    fingers   = vars.gestureFingersMore,
+--    direction = "down",
+--    action    = function()
+--        hl.exec_cmd(vars.sleepGestureCmd)
+--    end,
+--})

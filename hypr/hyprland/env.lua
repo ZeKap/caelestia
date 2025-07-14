@@ -18,6 +18,7 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+hl.env("XDG_PICTURES_DIR", "/home/kap/Pictures/Screenshots")
 
 -- Others
 hl.env("_JAVA_AWT_WM_NONREPARENTING", "1")

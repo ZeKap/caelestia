@@ -1,6 +1,6 @@
-local vars = require("variables")
-local fn   = require("utils.functions")
-
+local vars             = require("variables")
+local fn               = require("utils.functions")
+local mainMod          = vars.mainMod
 
 -- Flags
 local locked           = { locked = true }
@@ -50,7 +50,7 @@ local function extend_keybind(base, suffix)
 end
 
 -- Launcher
-local launcher_default = normalise_keybind("SUPER + SUPER_L")
+local launcher_default = normalise_keybind(mainMod .. " + SUPER_L")
 create_bind(
     vars.kbLauncher,
     hl.dsp.global("caelestia:launcher"),
@@ -73,12 +73,13 @@ create_bind(vars.kbRestoreLock, function()
 end)
 
 -- Kill/restart
-create_bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("qs -c caelestia kill"), release)
+create_bind("CTRL + " .. mainMod .. "+  SHIFT + R", hl.dsp.exec_cmd("qs -c caelestia kill"), release)
 create_bind(
-    "CTRL + SUPER + ALT + R",
+    "CTRL + " .. mainMod .. " + ALT + R",
     hl.dsp.exec_cmd("qs -c caelestia kill; sleep .1; caelestia shell -d"),
     release
 )
+
 
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
@@ -115,8 +116,8 @@ create_bind(vars.kbGroupLockActive, hl.dsp.group.lock_active())
 
 -- Window actions
 for _, dir in ipairs({ "left", "right", "up", "down" }) do
-    create_bind("SUPER + " .. dir, hl.dsp.focus({ direction = dir }))
-    create_bind("SUPER + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
+    create_bind(mainMod .. "+" .. dir, hl.dsp.focus({ direction = dir }))
+    create_bind(mainMod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
 end
 
 create_bind(vars.kbWindowDecreaseWidth, fn.resize_active_window(-10, 0), repeating)
@@ -124,8 +125,8 @@ create_bind(vars.kbWindowIncreaseWidth, fn.resize_active_window(10, 0), repeatin
 create_bind(vars.kbWindowDecreaseHeight, fn.resize_active_window(0, -10), repeating)
 create_bind(vars.kbWindowIncreaseHeight, fn.resize_active_window(0, 10), repeating)
 
-create_bind({ vars.kbMoveWindow, "SUPER + mouse:272" }, hl.dsp.window.drag(), mouse)
-create_bind({ vars.kbResizeWindow, "SUPER + mouse:273" }, hl.dsp.window.resize(), mouse)
+create_bind(vars.kbMoveWindow, hl.dsp.window.drag(), mouse)
+create_bind(vars.kbResizeWindow, hl.dsp.window.resize(), mouse)
 create_bind(vars.kbCenterWindow, hl.dsp.window.center())
 create_bind(vars.kbNormalizeWindow, function()
     hl.dispatch(hl.dsp.window.resize(fn.resize_by_screen(55, 70)))
@@ -143,11 +144,13 @@ create_bind(vars.kbWindowPip, function()
         end
     end
 end)
+
 create_bind(vars.kbPinWindow, hl.dsp.window.pin())
 create_bind(vars.kbWindowFullscreen, hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 create_bind(vars.kbWindowBorderedFullscreen, hl.dsp.window.fullscreen({ mode = "maximized" }))
 create_bind(vars.kbToggleWindowFloating, hl.dsp.window.float())
 create_bind(vars.kbCloseWindow, hl.dsp.window.close())
+create_bind(vars.kbForceCloseWindow, hl.dsp.exec_cmd("hyprctl kill"))
 
 -- Special workspace toggles
 create_bind(vars.kbSpecialWs, fn.toggle("specialws"))
@@ -155,6 +158,7 @@ create_bind(vars.kbSystemMonitorWs, fn.toggle("sysmon"))
 create_bind(vars.kbMusicWs, fn.toggle("music"))
 create_bind(vars.kbCommunicationWs, fn.toggle("communication"))
 create_bind(vars.kbTodoWs, fn.toggle("todo"))
+create_bind(vars.kbAI, fn.toggle("ai"))
 
 -- Apps
 create_bind(vars.kbTerminal, hl.dsp.exec_cmd(vars.terminal))
@@ -162,6 +166,14 @@ create_bind(vars.kbBrowser, hl.dsp.exec_cmd(vars.browser))
 create_bind(vars.kbEditor, hl.dsp.exec_cmd(vars.editor))
 create_bind(vars.kbFileExplorer, hl.dsp.exec_cmd(vars.fileExplorer))
 create_bind(vars.kbAudioSettings, hl.dsp.exec_cmd(vars.audioSettings))
+
+-- Screenshots
+hl.bind("Print", hl.dsp.exec_cmd("hyprshot -sm region -- gradia"))
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd("hyprshot -szm region -- gradia")) -- z = freeze
+hl.bind("ALT + Print", hl.dsp.exec_cmd("hyprshot -sm window -- gradia"))
+hl.bind("ALT + SHIFT + Print", hl.dsp.exec_cmd("hyprshot -szm window -- gradia"))
+hl.bind(mainMod .. "+ Print", hl.dsp.exec_cmd("hyprshot -sm output -- gradia")) -- output = screen
+hl.bind(mainMod .. " + SHIFT + Print", hl.dsp.exec_cmd("hyprshot -szm output --gradia"))
 
 -- Utilities
 create_bind(vars.kbScreenshot, hl.dsp.exec_cmd("caelestia screenshot"), locked)
@@ -183,7 +195,7 @@ create_bind({ vars.kbMediaPrev, "XF86AudioPrev" }, hl.dsp.global("caelestia:medi
 create_bind({ vars.kbMediaStop, "XF86AudioStop" }, hl.dsp.global("caelestia:mediaStop"), locked)
 
 -- Volume
-create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), locked)
+create_bind(vars.kbVolumeMute, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), locked)
 create_bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), locked)
 create_bind(
     "XF86AudioRaiseVolume",
@@ -203,6 +215,7 @@ create_bind(
 
 -- Sleep
 create_bind(vars.kbSleep, hl.dsp.exec_cmd(vars.sleepGestureCmd), locked)
+hl.bind("XF86PowerOff", hl.dsp.exec_cmd("systemctl suspend"))
 
 -- Clipboard and emoji picker
 create_bind(vars.kbClipboard, hl.dsp.exec_cmd("pkill fuzzel || caelestia clipboard"))
@@ -216,7 +229,7 @@ create_bind(
 
 -- Testing
 create_bind(
-    "SUPER + ALT + F12",
+    mainMod .. " + ALT + F12",
     hl.dsp.exec_cmd(
         "notify-send -u low -i dialog-information-symbolic 'Test notification' " ..
         [["Here's a really long message to test truncation and wrapping\nYou can middle click or flick this notification to dismiss it!"]] ..

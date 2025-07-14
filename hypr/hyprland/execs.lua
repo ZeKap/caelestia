@@ -27,6 +27,15 @@ hl.on("hyprland.start", function()
 
     -- Start shell
     hl.exec_cmd("caelestia shell -d")
+
+    -- Fun
+    hl.exec_cmd("xrdb ~/.Xresources")
+    hl.exec_cmd("activate-linux -s 0.8")
+    hl.exec_cmd("nm-applet")
+
+    -- Power Button manager
+    hl.exec_cmd(
+        'systemd-inhibit --who="Hyprland config" --why="wlogout keybind" --what=handle-power-key --mode=block sleep infinity & echo $! > /tmp/.hyprland-systemd-inhibit')
 end)
 
 -- Resizer listeners

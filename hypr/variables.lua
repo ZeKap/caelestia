@@ -1,20 +1,25 @@
 local scheme = require("scheme.current")
 
+local mainMod = "SUPER"
+
 return {
     ------------------
     ---- HYPRLAND ----
     ------------------
 
+    -- Main shortcut
+    mainMod                    = mainMod,
+
     -- Apps
     terminal                   = "foot",
-    browser                    = "firefox",
-    editor                     = "codium",
-    fileExplorer               = "thunar",
+    browser                    = "zen-browser",
+    editor                     = "zeditor",
+    fileExplorer               = "nautilus",
     audioSettings              = "pwvucontrol",
 
     -- Touchpad
     touchpadDisableTyping      = true,
-    touchpadScrollFactor       = 0.3,
+    touchpadScrollFactor       = 0.5,
     gestureFingers             = 3,
     workspaceSwipeFingers      = 4,
     gestureFingersMore         = 4,
@@ -22,11 +27,11 @@ return {
     -- Blur
     blurEnabled                = true,
     blurSpecialWs              = false,
-    blurPopups                 = true,
+    blurPopups                 = false,
     blurInputMethods           = true,
     blurSize                   = 8,
     blurPasses                 = 2,
-    blurXray                   = false,
+    blurXray                   = true,
 
     -- Shadow
     shadowEnabled              = true,
@@ -36,13 +41,13 @@ return {
 
     -- Gaps
     workspaceGaps              = 20,
-    windowGapsIn               = 5,
-    windowGapsOut              = 10,
-    singleWindowGapsOut        = 20,
+    windowGapsIn               = 4,
+    windowGapsOut              = 8,
+    singleWindowGapsOut        = 8,
 
     -- Window styling
     windowOpacity              = 0.95,
-    windowRounding             = 15,
+    windowRounding             = 9,
     windowBorderSize           = 1,
     activeWindowBorderColour   = "rgba(" .. scheme.primary .. "e6)",
     inactiveWindowBorderColour = "rgba(" .. scheme.onSurfaceVariant .. "11)",
@@ -50,8 +55,8 @@ return {
     -- Misc
     volumeStep                 = 10,
     volumeMax                  = 100,
-    cursorTheme                = "sweet-cursors",
-    cursorSize                 = 24,
+    cursorTheme                = "Moga-Candy-Black",
+    cursorSize                 = 32,
     sleepGestureCmd            = "systemctl suspend-then-hibernate",
 
     ------------------
@@ -59,92 +64,95 @@ return {
     ------------------
 
     -- Modifier only, the actual binds will be mod + 0-9. These should be strings and not arrays.
-    kbGoToWs                   = "SUPER",
-    kbGoToWsGroup              = "CTRL + SUPER",
-    kbMoveWinToWs              = "SUPER + ALT",
-    kbMoveWinToWsGroup         = "CTRL + SUPER + ALT",
+    kbGoToWs                   = mainMod,
+    kbGoToWsGroup              = "CTRL + " .. mainMod,
+    kbMoveWinToWs              = mainMod .. " + SHIFT",
+    kbMoveWinToWsGroup         = "CTRL + " .. mainMod .. " + SHIFT",
 
     -- All the following binds can be either an array of binds to bind multiple keys, or a single string.
 
     -- Workspaces
-    kbMoveWinToWsSpecial       = { "SUPER + ALT + S", "CTRL + SUPER + SHIFT + Up" },
-    kbMoveWinFromWsSpecial     = "CTRL + SUPER + SHIFT + Down",
-    kbMoveWinToWsNext          = { "SUPER + ALT + mouse_down", "SUPER + ALT + Page_Down", "CTRL + SUPER + SHIFT + Right" },
-    kbMoveWinToWsPrev          = { "SUPER + ALT + mouse_up", "SUPER + ALT + Page_Up", "CTRL + SUPER + SHIFT + Left" },
-    kbNextWs                   = { "SUPER + mouse_down", "CTRL + SUPER + Right", "SUPER + Page_Down" },
-    kbPrevWs                   = { "SUPER + mouse_up", "CTRL + SUPER + Left", "SUPER + Page_Up" },
-    kbNextWsGroup              = "CTRL + SUPER + mouse_down",
-    kbPrevWsGroup              = "CTRL + SUPER + mouse_up",
+    kbMoveWinToWsSpecial       = { mainMod .. " + SHIFT + S", "CTRL + " .. mainMod .. " + SHIFT + Up" },
+    kbMoveWinFromWsSpecial     = "CTRL + " .. mainMod .. " + SHIFT + Down",
+    kbMoveWinToWsNext          = { mainMod .. " + SHIFT + mouse_down", mainMod .. " + SHIFT + Page_Down", "CTRL + " .. mainMod .. " + SHIFT + Right" },
+    kbMoveWinToWsPrev          = { mainMod .. " + SHIFT + mouse_up", mainMod .. " + SHIFT + Page_Up", "CTRL + " .. mainMod .. " + SHIFT + Left" },
+    kbNextWs                   = { mainMod .. " + mouse_down", "CTRL + " .. mainMod .. " + Down", mainMod .. " + Page_Down" },
+    kbPrevWs                   = { mainMod .. " + mouse_up", "CTRL + " .. mainMod .. " + Up", mainMod .. " + Page_Up" },
+    kbNextWsGroup              = "CTRL + " .. mainMod .. " + mouse_down",
+    kbPrevWsGroup              = "CTRL + " .. mainMod .. " + mouse_up",
 
     -- Window Group
     kbWindowCycleNext          = "ALT + TAB",
     kbWindowCyclePrev          = "SHIFT + ALT + TAB",
-    kbWindowGroupCycleNext     = "CTRL + ALT + TAB",
-    kbWindowGroupCyclePrev     = "CTRL + SHIFT + ALT + TAB",
-    kbUngroup                  = "SUPER + U",
-    kbToggleGroup              = "SUPER + Comma",
-    kbGroupLockActive          = "SUPER + SHIFT + Comma",
+    kbWindowGroupCycleNext     = mainMod .. " + CTRL + TAB",
+    kbWindowGroupCyclePrev     = mainMod .. " + CTRL + SHIFT + TAB",
+
+    kbUngroup                  = mainMod .. " + U",
+    kbToggleGroup              = mainMod .. " + Comma",
+    kbGroupLockActive          = mainMod .. " + SHIFT + Comma",
 
     -- Window Actions
-    kbWindowDecreaseWidth      = { "SUPER + Minus", "SUPER + ALT + Left" },
-    kbWindowIncreaseWidth      = { "SUPER + Equal", "SUPER + ALT + Right" },
-    kbWindowDecreaseHeight     = { "SUPER + SHIFT + Minus", "SUPER + ALT + Up" },
-    kbWindowIncreaseHeight     = { "SUPER + SHIFT + Equal", "SUPER + ALT + Down" },
+    kbWindowDecreaseWidth      = { mainMod .. " + Minus", mainMod .. " + ALT + Left" },
+    kbWindowIncreaseWidth      = { mainMod .. " + Equal", mainMod .. " + ALT + Right" },
+    kbWindowDecreaseHeight     = { mainMod .. " + SHIFT + Minus", mainMod .. " + ALT + Up" },
+    kbWindowIncreaseHeight     = { mainMod .. " + SHIFT + Equal", mainMod .. " + ALT + Down" },
 
-    kbMoveWindow               = "SUPER + Z",
-    kbResizeWindow             = "SUPER + X",
-    kbCenterWindow             = "CTRL + SUPER + Backslash",
-    kbNormalizeWindow          = "CTRL + SUPER + ALT + Backslash",
-    kbWindowPip                = "SUPER + ALT + Backslash",
-    kbPinWindow                = "SUPER + P",
-    kbWindowFullscreen         = "SUPER + F",
-    kbWindowBorderedFullscreen = "SUPER + ALT + F",
-    kbToggleWindowFloating     = "SUPER + ALT + Space",
-    kbCloseWindow              = "SUPER + Q",
+    kbMoveWindow               = { mainMod .. " + Z", "SUPER + mouse:272" },
+    kbResizeWindow             = { mainMod .. " + X", "SUPER + mouse:273" },
+    kbCenterWindow             = "CTRL + " .. mainMod .. " + Backslash",
+    kbNormalizeWindow          = "CTRL + " .. mainMod .. " + ALT + Backslash",
+    kbWindowPip                = mainMod .. " + ALT + Backslash",
+    kbPinWindow                = mainMod .. " + P",
+    kbWindowFullscreen         = mainMod .. " + SHIFT + F",
+    kbWindowBorderedFullscreen = mainMod .. " + F",
+    kbToggleWindowFloating     = mainMod .. " + space",
+    kbCloseWindow              = mainMod .. " + Q",
+    kbForceCloseWindow         = mainMod .. " + SHIFT + Q",
 
     -- Special workspaces toggles
-    kbSpecialWs                = "SUPER + S",
+    kbSpecialWs                = mainMod .. " + S",
     kbSystemMonitorWs          = "CTRL + SHIFT + Escape",
-    kbMusicWs                  = "SUPER + M",
-    kbCommunicationWs          = "SUPER + D",
-    kbTodoWs                   = "SUPER + R",
+    kbMusicWs                  = mainMod .. " + M",
+    kbCommunicationWs          = mainMod .. " + D",
+    kbTodoWs                   = mainMod .. " + R",
+    kbAI                       = mainMod .. " + I",
 
     -- Apps
-    kbTerminal                 = "SUPER + T",
-    kbBrowser                  = "SUPER + W",
-    kbEditor                   = "SUPER + C",
-    kbFileExplorer             = "SUPER + E",
+    kbTerminal                 = mainMod .. " + Return",
+    kbBrowser                  = mainMod .. " + W",
+    kbEditor                   = mainMod .. " + C",
+    kbFileExplorer             = mainMod .. " + E",
     kbAudioSettings            = "CTRL + ALT + V",
 
     -- Utilities
     kbScreenshot               = "Print",
-    kbScreenshotFreeze         = "SUPER + SHIFT + S",
-    kbScreenshotRegion         = "SUPER + SHIFT + ALT + S",
-    kbRecord                   = "CTRL + ALT + R",
-    kbRecordSound              = "SUPER + ALT + R",
-    kbRecordRegion             = "SUPER + SHIFT + ALT + R",
-    kbColorPicker              = "SUPER + SHIFT + C",
+    kbScreenshotFreeze         = { mainMod .. " + SHIFT + S", "ALT + Print" },
+    kbScreenshotRegion         = { mainMod .. " + SHIFT + ALT + S", "SHIFT + Print" },
+    kbRecord                   = mainMod .. " + ALT + R",
+    kbRecordSound              = mainMod .. " + CTRL + ALT + R",
+    kbRecordRegion             = mainMod .. " + SHIFT + ALT + R",
+    kbColorPicker              = mainMod .. " + SHIFT + C",
 
     -- Media
-    kbMediaToggle              = "CTRL + SUPER + Space",
-    kbMediaNext                = "CTRL + SUPER + Equal",
-    kbMediaPrev                = "CTRL + SUPER + Minus",
-    kbMediaStop                = "CTRL + SUPER + Backspace",
-    kbVolumeMute               = "SUPER + SHIFT + M",
+    kbMediaToggle              = "CTRL + " .. mainMod .. " + Space",
+    kbMediaNext                = "CTRL + " .. mainMod .. " + Equal",
+    kbMediaPrev                = "CTRL + " .. mainMod .. " + Minus",
+    kbMediaStop                = "CTRL + " .. mainMod .. " + Backspace",
+    kbVolumeMute               = { mainMod .. " + SHIFT + M", "XF86AudioMute" },
 
     -- Misc
-    kbLauncher                 = "SUPER + SUPER_L",
+    kbLauncher                 = mainMod .. " + SUPER_L",
     kbSession                  = "CTRL + ALT + Delete",
-    kbShowSidebar              = "SUPER + N",
+    kbShowSidebar              = mainMod .. " + N",
     kbClearNotifs              = "CTRL + ALT + C",
-    kbShowPanels               = "SUPER + K",
-    kbLock                     = "SUPER + L",
-    kbRestoreLock              = "SUPER + ALT + L",
-    kbSleep                    = "SUPER + SHIFT + L",
+    kbShowPanels               = mainMod .. " + K",
+    kbLock                     = mainMod .. " + L",
+    kbRestoreLock              = mainMod .. " + ALT + L",
+    kbSleep                    = mainMod .. " + SHIFT + L",
 
     -- Clipboard and emoji picker
-    kbClipboard                = "SUPER + V",
-    kbClipboardDel             = "SUPER + ALT + V",
+    kbClipboard                = mainMod .. " + V",
+    kbClipboardDel             = mainMod .. " + ALT + V",
     kbClipboardPasteLatest     = "CTRL + SHIFT + ALT + V",
-    kbEmoji                    = "SUPER + Period",
+    kbEmoji                    = mainMod .. " + Period",
 }

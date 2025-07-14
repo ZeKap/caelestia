@@ -4,7 +4,7 @@ if status is-interactive
 
     # Direnv + Zoxide
     command -v direnv &> /dev/null && direnv hook fish | source
-    command -v zoxide &> /dev/null && zoxide init fish --cmd cd | source
+    command -v zoxide &> /dev/null && zoxide init fish --cmd z | source
 
     # Better ls
     command -v eza &> /dev/null && alias ls='eza --icons --group-directories-first -1'
@@ -44,3 +44,11 @@ if status is-interactive
     set -q XDG_CONFIG_HOME && set -l cConf $XDG_CONFIG_HOME/caelestia || set -l cConf $HOME/.config/caelestia
     source $cConf/user-config.fish 2> /dev/null
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH ~/.lmstudio/bin
+# End of LM Studio CLI section

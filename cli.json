@@ -1,0 +1,62 @@
+{
+  "toggles": {
+    "communication": {
+      "fluffychat": {
+        "enable": true,
+        "match": [{ "class": "fluffychat" }],
+        "command": ["fluffychat"],
+        "move": true
+      },
+      "discord": {
+        "enable": false
+      },
+      "whatsapp": {
+        "enable": false
+      }
+    },
+    "music": {
+      "deezer": {
+        "enable": true,
+        "match": [{ "class": "deezer-desktop" }],
+        "command": ["deezer-desktop"],
+        "move": true
+      },
+      "spotify": {
+        "enable": false
+      },
+      "feishin": {
+        "enable": true
+      }
+    },
+    "ai": {
+      "lm studio": {
+        "enable": true,
+        "match": [{ "class": "LM Studio" }],
+        "command": ["lmstudio"],
+        "move": true
+      }
+    },
+    "sysmon": {
+      "btop": {
+        "enable": true,
+        "match": [
+          {
+            "class": "btop",
+            "title": "btop",
+            "workspace": { "name": "special:sysmon" }
+          }
+        ],
+        "command": [
+          "foot",
+          "-a",
+          "btop",
+          "-T",
+          "btop",
+          "fish",
+          "-C",
+          "exec btop"
+        ]
+      }
+    }
+  }
+}

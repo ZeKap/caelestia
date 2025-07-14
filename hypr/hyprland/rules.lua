@@ -1,4 +1,5 @@
 local vars = require("variables")
+local scheme = require("scheme.current")
 
 -- Tags an array of window matches. If `field` is given, matches should be an
 -- array of strings. Otherwise, it should be an array of tables.
@@ -33,6 +34,7 @@ local system_monitor_tag = "system_monitor"
 local music_player_tag = "music_player"
 local communication_app_tag = "communication_app"
 local todo_app_tag = "todo_app"
+local ai_app_tag = "ai_app"
 
 
 ----------------------
@@ -44,6 +46,12 @@ hl.window_rule({ match = { fullscreen = false }, opacity = vars.windowOpacity ..
 
 -- Center all floating windows except xwayland windows (xwayland popups count as windows)
 hl.window_rule({ match = { float = true, xwayland = false }, center = true })
+
+-- Change pinned windows border color
+hl.window_rule({
+    match = { pin = true },
+    border_color = "rgb(" .. scheme.tertiary .. ") rgba(" .. scheme.tertiary .. "88)",
+})
 
 -- Picture in picture (move and resize done via resizer in execs.lua)
 hl.window_rule({
@@ -61,7 +69,7 @@ hl.window_rule({
 
 -- Opaque apps
 tagged_rule(opaque_tag, {
-    "foot",                          -- Terminal
+    "foot|alacritty|krita",          -- Terminal
     "equibop",                       -- Discord client
     "org.quickshell",                -- Quickshell
     "feh|imv|swappy",                -- Image viewers
@@ -81,6 +89,7 @@ tagged_rule(float_tag, {
     "com.github.GradienceTeam.Gradience", -- GTK themer (deprecated)
     "feh|imv|swappy",                     -- Image viewers
     "org.quickshell",                     -- Quickshell
+    "system-config-printer",              -- Printing settings
 }, "class")
 tagged_rule(float_tag, {
     "File (Operation|Upload)( Progress)?", -- File manager operation progress (upload, move, copy, etc)
@@ -92,11 +101,13 @@ tagged_rule(float_tag, {
 -- 60% x 70%
 tagged_rule(float_60_70_tag, {
     "(Select|Open)( a)? (File|Folder)(s)?", -- File dialogs
+    "File (Operation|Upload)( Progress)?",  --
+    ".* Properties",                        --
     "Save As",                              -- Save dialogs
     "Library",                              -- * I don't remember what this matches...
 }, "title")
 tagged_rule(float_60_70_tag, {
-    { title = "(Save|Export) Image", class = "gimp" }, -- GIMP export/save
+    { title = "(Save|Export) Image|GIMP Crash Debug", class = "gimp" }, -- GIMP export/save
 })
 tagged_rule(float_60_70_tag, {
     "org.pulseaudio.pavucontrol|com.saivert.pwvucontrol", -- Audio control
@@ -129,6 +140,18 @@ tagged_rule(xwl_popup_tag, {
     { xwayland = true, title = "",         class = "", initial_title = "", initial_class = "" }
 })
 
+-- Screen Sharing
+hl.window_rule({
+    match = { class = "^(xwaylandvideobridge)$" },
+    opacity = 0.0,
+    no_anim = true,
+    no_initial_focus = true,
+    no_blur = true,
+    max_size = "1 1",
+    no_focus = true,
+})
+hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+
 
 -- Special workspaces
 tagged_rule(system_monitor_tag, { "btop" }, "class")
@@ -142,11 +165,15 @@ tagged_rule(music_player_tag, {
     "Spotify|Spotify Free" -- Spotify wayland, it has no class for some reason
 }, "initial_title")
 tagged_rule(communication_app_tag, {
+    "fluffychat",              -- Matrix clients
     "discord|equibop|vesktop", -- Discord clients
     "whatsapp"                 -- Whatsapp
 }, "class")
 tagged_rule(todo_app_tag, {
     "todoist" -- Todoist
+}, "class")
+tagged_rule(ai_app_tag, {
+    "LM Studio"
 }, "class")
 
 
@@ -193,6 +220,7 @@ create_tag(system_monitor_tag, { workspace = "special:sysmon" })
 create_tag(music_player_tag, { workspace = "special:music" })
 create_tag(communication_app_tag, { workspace = "special:communication" })
 create_tag(todo_app_tag, { workspace = "special:todo" })
+create_tag(ai_app_tag, { workspace = "special:ai" })
 
 
 -------------------------

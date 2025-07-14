@@ -2,6 +2,8 @@ local scheme = require("scheme.current")
 
 hl.config({
     misc = {
+        vrr                          = 1,
+
         animate_manual_resizes       = false,
         animate_mouse_windowdragging = false,
 
@@ -14,7 +16,7 @@ hl.config({
         focus_on_activate            = true,
         session_lock_xray            = true,
 
-        mouse_move_enables_dpms      = true,
+        mouse_move_enables_dpms      = false,
         key_press_enables_dpms       = true,
 
         background_color             = "rgb(" .. scheme.surfaceContainer .. ")",

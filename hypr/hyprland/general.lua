@@ -23,6 +23,10 @@ hl.config({
         smart_resizing = true,
     },
 
+    xwayland = {
+        force_zero_scaling = true
+    },
+
     scrolling = {
         fullscreen_on_one_column = true,
         focus_fit_method         = 1,

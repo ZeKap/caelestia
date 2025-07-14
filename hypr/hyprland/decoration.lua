@@ -14,6 +14,8 @@ hl.config({
             input_methods     = vars.blurInputMethods,
             size              = vars.blurSize,
             passes            = vars.blurPasses,
+            noise             = 0.04,
+            vibrancy_darkness = 1,
         },
 
         shadow = {
@@ -21,6 +23,8 @@ hl.config({
             range        = vars.shadowRange,
             render_power = vars.shadowRenderPower,
             color        = vars.shadowColour,
+            offset       = {1, 1},
+            scale        = 1,
         },
     },
 })
