@@ -1,0 +1,32 @@
+{
+  "toggles": {
+    "communication": {
+      "fluffychat": {
+        "enable": true,
+        "match": [{ "class": "fluffychat" }],
+        "command": ["fluffychat"],
+        "move": true
+      },
+      "discord": {
+        "enable": false
+      },
+      "whatsapp": {
+        "enable": false
+      }
+    },
+    "music": {
+      "deezer": {
+        "enable": true,
+        "match": [{ "class": "deezer-desktop" }],
+        "command": ["deezer-desktop"],
+        "move": true
+      },
+      "spotify": {
+        "enable": false
+      },
+      "feishin": {
+        "enable": true
+      }
+    }
+  }
+}
